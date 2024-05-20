@@ -1,0 +1,9 @@
+# Ignore les fichiers compilés et les fichiers temporaires
+dist/
+build/
+*.log
+
+# Ignore les dépendances installées par npm
+node_modules/
+
+package-lock.json
