@@ -84,7 +84,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (step < currentMessages.length) {
             resultDisplay.innerHTML = `<p>${currentMessages[step]}</p>`;
         } else {
-            resultDisplay.innerHTML = `<p>Opérations terminées. Résultat final: ${finalNumber}</p>`;
+            resultDisplay.innerHTML = `<p>Entrez un nombre et cliquez sur "Voir dans les pensées" pour voir le résultat.</p>`;
+            guessInput.style.display = "block";
+            checkButton.style.display = "block";
         }
     }
 
@@ -92,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     nextButton.addEventListener("click", () => {
         if (step < currentMessages.length) {
-            finalNumber = currentCalculations[step](finalNumber);
             step++;
             displayMessage();
         }
@@ -100,6 +101,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     restartButton.addEventListener("click", () => {
         guessInput.value = '';
+        guessInput.style.display = "none";
+        checkButton.style.display = "none";
         resultDisplay.innerHTML = '';
         nextButton.disabled = false;
         checkButton.disabled = false;
@@ -110,9 +113,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const initialNumber = parseInt(guessInput.value);
         if (!isNaN(initialNumber)) {
             finalNumber = initialNumber;
+            currentCalculations.forEach(calculation => {
+                finalNumber = calculation(finalNumber);
+            });
+            resultDisplay.innerHTML = `<p>Ton esprit est comme un livre ouvert 🔮 ton nombre est : ${finalNumber}</p>`;
             checkButton.disabled = true;
-            nextButton.disabled = true;
-            displayMessage();
         } else {
             alert("Veuillez entrer un nombre valide.");
         }
