@@ -1,45 +1,80 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const restartButton = document.getElementById("restart") as HTMLButtonElement;
+    const restartButton = document.querySelector(".restart") as HTMLButtonElement;
     const guessInput = document.getElementById("guess") as HTMLInputElement;
     const checkButton = document.getElementById("check-btn") as HTMLButtonElement;
-    const resultDisplay = document.querySelector(".result") as HTMLDivElement;
+    const resultDisplay = document.querySelector(".text") as HTMLDivElement;
+
+    let currentCalculations: ((n: number) => number)[] = [];
+
+    const calculations1 = [
+        (n: number) => n + 10,
+        (n: number) => n * 3,
+        (n: number) => n - 20,
+        (n: number) => n / 2,
+        (n: number) => n + 15,
+        (n: number) => n * 6,
+        (n: number) => n - 10,
+        (n: number) => n / 4,
+    ];
+
+    const calculations2 = [
+        (n: number) => n * 2,
+        (n: number) => n + 5,
+        (n: number) => n / 3,
+        (n: number) => n - 7,
+        (n: number) => n * 4,
+        (n: number) => n - 9,
+        (n: number) => n / 2,
+        (n: number) => n + 8,
+    ];
+
+    const calculations3 = [
+        (n: number) => n + 20,
+        (n: number) => n / 5,
+        (n: number) => n * 3,
+        (n: number) => n - 8,
+        (n: number) => n / 4,
+        (n: number) => n + 7,
+        (n: number) => n * 2,
+        (n: number) => n - 6,
+    ];
+
+    const calculationsBlocks = [calculations1, calculations2, calculations3];
+
+    function selectRandomCalculations() {
+        const randomIndex = Math.floor(Math.random() * calculationsBlocks.length);
+        currentCalculations = calculationsBlocks[randomIndex];
+    }
+
+    function performCalculations(number: number): number {
+        return currentCalculations.reduce((acc, calc) => calc(acc), number);
+    }
+
+    function displayOperations() {
+        const operationsList = currentCalculations
+            .map((calc, index) => `Étape ${index + 1}: ${calc.toString()}`)
+            .join("\n");
+        resultDisplay.innerText = `Opérations à effectuer sur votre nombre mystère :\n${operationsList}`;
+    }
 
     restartButton.addEventListener("click", () => {
-        const guessedNumber = prompt("Pensez à un nombre entre 1 et 100 :");
-        if (guessedNumber !== null) {
-            const initialNumber = parseInt(guessedNumber);
-            if (!isNaN(initialNumber) && initialNumber >= 1 && initialNumber <= 100) {
-                let operationsList = "Opérations à effectuer sur votre nombre mystère :\n";
-                operationsList += `1. Ajoutez 10\n`;
-                operationsList += `2. Multipliez par 3\n`;
-                operationsList += `3. Retirez 20\n`;
-                operationsList += `4. Divisez par 2\n`;
-                operationsList += `5. Ajoutez 15\n`;
-                operationsList += `6. Multipliez par 6\n`;
-                operationsList += `7. Retirez 10\n`;
-                operationsList += `8. Divisez par 4\n`;
-                resultDisplay.textContent = operationsList;
-            } else {
-                alert("Veuillez entrer un nombre valide entre 1 et 100.");
-            }
-        }
+        selectRandomCalculations();
+        displayOperations();
+        guessInput.value = '';
+        resultDisplay.textContent = '';
     });
 
     checkButton.addEventListener("click", () => {
         const guessedNumber = parseInt(guessInput.value);
         if (!isNaN(guessedNumber)) {
-            let finalNumber = guessedNumber;
-            finalNumber *=4;
-            finalNumber +=10;
-            finalNumber /=6;
-            finalNumber -=15;
-            finalNumber *=2;
-            finalNumber +=20;
-            finalNumber /=3;
-            finalNumber -=10;
+            const finalNumber = performCalculations(guessedNumber);
             resultDisplay.textContent = `Ton esprit est comme un livre ouvert 🔮 ton nombre est : ${finalNumber}`;
         } else {
             alert("Veuillez entrer un nombre valide.");
         }
     });
+
+    // Initialiser avec un bloc de calculs aléatoire
+    selectRandomCalculations();
+    displayOperations();
 });
