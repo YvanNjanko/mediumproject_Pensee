@@ -40,17 +40,17 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     const calculations2 = [
-        (n: number) => n * 2,
-        (n: number) => n + 5,
-        (n: number) => n / 3,
-        (n: number) => n - 4,
-        (n: number) => n * 4,
-        (n: number) => n + 10,
-        (n: number) => n / 5
+        (n: number) => n * 5,
+        (n: number) => n - 10,
+        (n: number) => n / 4,
+        (n: number) => n + 4,
+        (n: number) => n * 3,
+        (n: number) => n - 5,
+        (n: number) => n / 2
     ];
-
+    
     const messages3 = [
-        "Ajoute 20 au résultat (+20)",
+        "Ajoute 20 (+20)",
         "Divise par 5 (/5)",
         "Multiplie par 3 (*3)",
         "Soustrais 10 (-10)",
@@ -60,14 +60,15 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     const calculations3 = [
-        (n: number) => n + 20,
-        (n: number) => n / 5,
-        (n: number) => n * 3,
-        (n: number) => n - 10,
-        (n: number) => n / 4,
-        (n: number) => n + 7,
-        (n: number) => n * 2
+        (n: number) => n / 2,
+        (n: number) => n - 7,
+        (n: number) => n * 4,
+        (n: number) => n + 10,
+        (n: number) => n / 3,
+        (n: number) => n * 5,
+        (n: number) => n - 20
     ];
+    
 
     const messageBlocks = [messages1, messages2, messages3];
     const calculationBlocks = [calculations1, calculations2, calculations3];
